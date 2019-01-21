@@ -2,10 +2,10 @@ name: rssbot
 debug: true
 # local: true # local mode(do not send telegram message)
 interval: 300 # seconds
-proxy: https://localhost:1080/ # proxy (Optional)
+# proxy: https://localhost:1080/ # proxy (Optional)
 telegram:
-  access_token: 111111:AAAAAAAAAAAAAAA # you telegram bot access token
-  default_chat_id: '123456789' # you telegram chat id
+  access_token: 111111:AAAAAAAAAAAAAAA # your telegram bot access token
+  default_chat_id: '123456789' # your telegram chat id
 subscriptions:
   - name: rssbot commit
     url: https://github.com/lawvs/rssbot/commits/master.atom

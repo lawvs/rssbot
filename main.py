@@ -34,7 +34,7 @@ def getFeedEntries(url):
         resp = requests.get(url, proxies=proxies)
         feed = feedparser.parse(resp.text)
     else:
-        feed = feedparser.parse(subInfo['url'])
+        feed = feedparser.parse(url)
     entries = feed.get('entries', [])
     if len(entries) == 0:
         logger.warn('empty entries!')

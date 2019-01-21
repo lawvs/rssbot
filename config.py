@@ -24,7 +24,7 @@ def loadConfig():
         configFileName = 'config.{}.yml'.format(env)
     logger.debug('load config {}'.format(configFileName))
     configPath = os.path.join(sys.path[0], configFileName)
-    with open(configPath, 'r') as f:
+    with open(configPath, 'r', encoding='utf8') as f:
         config = yaml.load(f)
     return config
 

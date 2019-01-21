@@ -1,4 +1,5 @@
 import os
+import sys
 import yaml
 import logging
 
@@ -22,7 +23,8 @@ def loadConfig():
     if env:
         configFileName = 'config.{}.yml'.format(env)
     logger.debug('load config {}'.format(configFileName))
-    with open(configFileName, 'r') as f:
+    configPath = os.path.join(sys.path[0], configFileName)
+    with open(configPath, 'r') as f:
         config = yaml.load(f)
     return config
 

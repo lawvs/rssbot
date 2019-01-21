@@ -1,0 +1,3 @@
+pyyaml
+feedparser
+python-telegram-bot

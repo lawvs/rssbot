@@ -12,11 +12,13 @@ def formatRss(subInfo, item) -> str:
     {name}
     {title}
     Updated: {updated}
+    Author: {author}
     [Read More]({link})
     '''.format(
         name=subInfo['name'],
         title=item.title,
         updated=item.updated,
+        author=item.author,
         link=item.link
     ))
 

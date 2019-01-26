@@ -16,10 +16,10 @@ def formatRss(subInfo, item) -> str:
     [Read More]({link})
     '''.format(
         name=subInfo['name'],
-        title=item.title,
-        updated=item.updated,
-        author=item.author,
-        link=item.link
+        title=item.get('title'),
+        updated=item.get('updated'),
+        author=item.get('author'),
+        link=item.get('link')
     ))
 
 

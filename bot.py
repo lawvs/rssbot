@@ -23,18 +23,10 @@ def formatRss(subInfo, item) -> str:
     ))
 
 
-def sendMessageToDefaultGroup(self, text, **kw):
-    chat_id = config['telegram']['default_chat_id']
-    return telegram.Bot.send_message(self, chat_id, text, **kw)
-
-
 def sendRssUpdateMessage(self, configInfo, rss, **kw):
     text = formatRss(configInfo, rss)
     logger.info(text)
-    chatId = configInfo.get('chat_id')
-    if not chatId:
-        self.sendMessageToDefaultGroup(text, parse_mode='Markdown', **kw)
-        return
+    chatId = configInfo.get('chat_id') or config['telegram']['default_chat_id']
 
     if isinstance(chatId, str):
         self.send_message(chatId, text, parse_mode='Markdown', **kw)
@@ -54,7 +46,6 @@ def initBot():
         proxy_url=config.get('proxy')))
 
     # patch
-    telegram.Bot.sendMessageToDefaultGroup = sendMessageToDefaultGroup
     telegram.Bot.sendRssUpdateMessage = sendRssUpdateMessage
     if config.get('local'):
         telegram.Bot.send_message = lambda *a, **kw: None  # do nothing

@@ -1,28 +1,38 @@
 import telegram
 import logging
+import html
 
 from config import config
 
 logger = logging.getLogger(__name__)
 
 
-def formatRss(subInfo, item) -> str:
+def escapeMarkdown(s: str) -> str:
+    return s.replace('_', '\\_').replace('*', '\\*').replace('[', '\\[').replace('`', '\\`')
+
+
+def formatRss(subInfo, item, parseMode=None) -> str:
+    def escape(s: str) -> str: return s
+    if parseMode == 'Markdown':
+        escape = escapeMarkdown
+    if parseMode == 'HTML':
+        escape = html.escape
+
     template = subInfo.get('template') or config['template']
     return template.format(
-        name=subInfo['name'],
-        title=item.get('title'),
-        updated=item.get('updated'),
-        author=item.get('author'),
+        name=escape(subInfo['name'] or 'Unknown'),
+        title=escape(item.get('title') or 'Unknown'),
+        updated=escape(item.get('updated') or 'Unknown'),
+        author=escape(item.get('author') or 'Unknown'),
         link=item.get('link')
     )
 
 
 def sendRssUpdateMessage(self, configInfo, rss, **kw):
-    text = formatRss(configInfo, rss)
-    logger.info(text)
     chatId = configInfo.get('chat_id') or config['telegram']['default_chat_id']
     parseMode = configInfo.get(
         'parse_mode') or config['telegram'].get('parse_mode')
+    text = formatRss(configInfo, rss, parseMode)
 
     if isinstance(chatId, str):
         self.send_message(chatId, text, parse_mode=parseMode, **kw)
